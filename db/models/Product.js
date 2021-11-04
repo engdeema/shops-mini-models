@@ -19,6 +19,12 @@ const ProductSchema = mongoose.Schema(
       type: Number,
       min: 0,
     },
+    // قاعده اسوي ريفرنس حق المودل الكبير
+    shops: {
+      type: mongoose.Schema.Types.ObjectId,
+      // لازم نفس اسم المودل بالضبط
+      ref: "Shops",
+    },
   },
   {
     timestamps: true,

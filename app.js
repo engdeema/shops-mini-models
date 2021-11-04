@@ -1,7 +1,9 @@
 const express = require("express");
 //import cors after yarn add cors
 const cors = require("cors");
-const productRoutes = require("./apis/products/routes");
+const productsRoutes = require("./apis/products/products.routes");
+const shopsRoutes = require("./apis/shops/shops.routes");
+const userRoutes = require("./apis/users/users.routes");
 const connectDB = require("./db/database");
 const morgan = require("morgan");
 const logger = require("./middleware/logger");
@@ -19,6 +21,7 @@ app.use(cors());
 //mw that prints out the url http.... and adds media at the end,
 //then we can call images
 // صار جنه راوت واكسبرس.ستاتيك تحوله حق مدل وير
+// to access images
 app.use("/media", express.static(path.join(__dirname, "media")));
 app.use(morgan("dev"));
 app.use(logger);
@@ -29,7 +32,9 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use("/api/products", productRoutes);
+app.use("/apis/products", productsRoutes);
+app.use("/apis/shops", shopsRoutes);
+app.use("/apis", userRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Path not found" });

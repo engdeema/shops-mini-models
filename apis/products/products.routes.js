@@ -1,13 +1,7 @@
 const express = require("express");
-const upload = require("/../../middleware/multer");
-const {
-  productListFetch,
-  productCreate,
-  productDelete,
-  productUpdate,
-  productDetailFetch,
-  fetchProduct,
-} = require("./controllers");
+const { shopCreate } = require("./products.controllers.js");
+const upload = require("../../middleware/multer");
+const { productListFetch, fetchProduct } = require("./products.controllers.js");
 
 // Create a mini express application
 const router = express.Router();
@@ -22,15 +16,8 @@ router.param("productId", async (req, res, next, productId) => {
     next({ status: 404, message: "Product Not Found!" });
   }
 });
-
-router.post("/", upload.single("image"), productCreate);
+// one pic ( image) same spelling in your model Product بيانات الصوره يبيها ملتر على صورة<<req.file
 
 router.get("/", productListFetch);
-
-router.get("/:productId", productDetailFetch);
-
-router.put("/:productId", upload.single("image"), productUpdate);
-
-router.delete("/:productId", productDelete);
 
 module.exports = router;
