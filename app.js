@@ -8,6 +8,8 @@ const connectDB = require("./db/database");
 const morgan = require("morgan");
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
+const passport = require("passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const path = require("path");
 
 const app = express();
@@ -30,7 +32,9 @@ app.use((req, res, next) => {
     res.status(400).json({ message: "I HATE BROCCOLI!! KEEFY! " });
   else next();
 });
-
+app.use(passport.initialize());
+passport.use(localStrategy);
+passport.use(jwtStrategy);
 // Routes
 app.use("/apis/products", productsRoutes);
 app.use("/apis/shops", shopsRoutes);

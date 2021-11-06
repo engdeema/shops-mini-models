@@ -1,12 +1,14 @@
 const express = require("express");
+const passport = require("passport");
 const upload = require("../../middleware/multer");
 const {
   shopsListFetch,
   shopCreate,
+  productCreate,
+  fetchShop,
   // shopDelete,
   // shopDetail,
 } = require("./shops.controller");
-const { productCreate } = require("./shops.controller");
 
 // Create a mini express application
 const router = express.Router();
@@ -22,8 +24,19 @@ router.param("shopId", async (req, res, next, shopId) => {
   }
 });
 // one pic ( image) same spelling in your model Product بيانات الصوره يبيها ملتر على صورة<<req.file
-router.post("/", upload.single("image"), shopCreate);
-router.post("/:shopId/products", upload.single("image"), productCreate);
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
+  shopCreate
+);
+router.post(
+  "/:shopId/products",
+  passport.authenticate("jwt", { session: false }),
+
+  upload.single("image"),
+  productCreate
+);
 router.get("/", shopsListFetch);
 // router.post("/:shopId", shopDetail);
 // router.delete("/:shopId", shopDelete);
